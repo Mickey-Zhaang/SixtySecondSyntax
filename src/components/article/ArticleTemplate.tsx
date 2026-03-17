@@ -1,3 +1,11 @@
+import bash from 'highlight.js/lib/languages/bash';
+import css from 'highlight.js/lib/languages/css';
+import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import python from 'highlight.js/lib/languages/python';
+import sql from 'highlight.js/lib/languages/sql';
+import typescript from 'highlight.js/lib/languages/typescript';
+import xml from 'highlight.js/lib/languages/xml';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import styled from 'styled-components';
@@ -33,7 +41,7 @@ export function ArticleTemplate({ meta, markdown }: ArticleTemplateProps) {
 				<Prose>
 					<ReactMarkdown
 						remarkPlugins={[remarkGfm]}
-						rehypePlugins={[rehypeHighlight]}
+						rehypePlugins={[[rehypeHighlight, { languages: { bash, css, javascript, json, python, sql, typescript, xml } }]]}
 						components={{
 							pre({ children }) {
 								// Extract className from the code child

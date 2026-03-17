@@ -29,11 +29,11 @@ import type { ArticleMeta } from '@/lib/types';
 
 // 1. Meta — controls how the article appears in listings
 export const meta: ArticleMeta = {
-  title: 'Your Title Here',
-  tags: ['tag1', 'tag2'],
-  date: '2026-03-17',       // YYYY-MM-DD
-  excerpt: 'One sentence describing what the reader will learn.',
-  order: 1,                 // optional — controls sort order within a section
+	title: 'Your Title Here',
+	tags: ['tag1', 'tag2'],
+	date: '2026-03-17', // YYYY-MM-DD
+	excerpt: 'One sentence describing what the reader will learn.',
+	order: 1, // optional — controls sort order within a section
 };
 
 // 2. Content — markdown string for the article body
@@ -49,19 +49,20 @@ code example
 
 // 3. Default export — the rendered component
 export default function YourArticleName() {
-  return <ArticleTemplate meta={meta} markdown={content} />;
+	return <ArticleTemplate meta={meta} markdown={content} />;
 }
 ```
 
 ### Meta fields
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `title` | `string` | Yes | Display title of the article |
-| `tags` | `string[]` | Yes | Used for search and filtering |
-| `date` | `string` | Yes | Publication date in `YYYY-MM-DD` format |
-| `excerpt` | `string` | Yes | Short description shown in article listings |
-| `order` | `number` | No | Sort order within a section (lower = first) |
+| Field     | Type       | Required | Description                                 |
+| --------- | ---------- | -------- | ------------------------------------------- |
+| `title`   | `string`   | Yes      | Display title of the article                |
+| `tags`    | `string[]` | Yes      | Used for search and filtering               |
+| `date`    | `string`   | Yes      | Publication date in `YYYY-MM-DD` format     |
+| `excerpt` | `string`   | Yes      | Short description shown in article listings |
+| `order`   | `number`   | No       | Sort order within a section (lower = first) |
+| `author`  | `string`   | No       | Sort order within a section (lower = first) |
 
 ### Writing content
 

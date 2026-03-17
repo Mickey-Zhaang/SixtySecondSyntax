@@ -6,7 +6,6 @@ export const meta: ArticleMeta = {
 	tags: ['flask', 'python', 'web'],
 	date: '2026-03-16',
 	excerpt: 'Get a Flask web server running with just a few lines of code.',
-	order: 1,
 	author: 'Mickey Zhang',
 };
 
