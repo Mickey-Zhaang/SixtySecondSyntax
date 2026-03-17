@@ -24,10 +24,18 @@ export default tseslint.config([
 		rules: {
 			'arrow-body-style': 'off', // Let Prettier handle this
 			'prefer-arrow-callback': 'off', // Let Prettier handle this
+			'@typescript-eslint/no-empty-object-type': 'off', // needed for styled-components DefaultTheme augmentation
 		},
 		languageOptions: {
 			ecmaVersion: 2020,
 			globals: globals.browser,
+		},
+	},
+	// Article files intentionally export both meta constants and the default component
+	{
+		files: ['src/content/articles/**/*.tsx'],
+		rules: {
+			'react-refresh/only-export-components': 'off',
 		},
 	},
 ]);
