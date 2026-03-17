@@ -41,6 +41,18 @@ src/content/articles/
         └── <slug>.tsx          →  /<section>/<subsection>/<slug>
 ```
 
+### Creating a new article
+
+Copy `src/content/articles/_template.tsx` into the appropriate section folder and rename it:
+
+```bash
+cp src/content/articles/_template.tsx src/content/articles/<section>/<slug>.tsx
+```
+
+Then update `meta`, `content`, and the component name. The app auto-discovers it on save.
+
+> Files prefixed with `_` are ignored by the registry (filtered in code, not via glob pattern) — `_template.tsx` will never appear as an article.
+
 ### Article file structure
 
 Every article exports three things:
