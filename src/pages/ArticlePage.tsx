@@ -1,26 +1,15 @@
 import styled from 'styled-components';
 
 import { Helmet } from 'react-helmet-async';
-import { Navigate, useParams } from 'react-router-dom';
 
 import { PageLayout } from '@/components/layout/PageLayout';
-import { articleBySlug } from '@/content/registry';
+import type { Article } from '@/lib/types';
 
-export function ArticlePage() {
-	const { section, subsection, slug } = useParams<{
-		section: string;
-		subsection?: string;
-		slug: string;
-	}>();
+interface ArticlePageProps {
+	article: Article;
+}
 
-	const key = subsection ? `${section}/${subsection}/${slug}` : `${section}/${slug}`;
-
-	const article = articleBySlug[key];
-
-	if (!article) {
-		return <Navigate to="/404" replace />;
-	}
-
+export function ArticlePage({ article }: ArticlePageProps) {
 	const Component = article.component;
 
 	return (

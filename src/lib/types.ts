@@ -11,17 +11,19 @@ export interface ArticleMeta {
 
 export interface Article {
 	meta: ArticleMeta;
-	slug: string;
-	section: string;
-	subsection?: string;
-	path: string;
-	readingTime: number; // minutes
+	slug: string;        // last segment, e.g. 'flask-setup'
+	section: string;     // first segment, e.g. 'python'
+	segments: string[];  // full path: ['python', 'flask', 'flask-setup']
+	path: string;        // URL: /python/flask/flask-setup
+	readingTime: number;
 	component: () => React.ReactElement;
 }
 
-export interface Section {
+// Recursive tree node — represents a section, subsection, or any folder level
+export interface ContentNode {
 	slug: string;
 	label: string;
-	articles: Article[];
-	subsections: Record<string, Article[]>;
+	path: string;
+	children: Record<string, ContentNode>; // sub-folders
+	articles: Article[];                    // articles directly in this folder
 }

@@ -1,7 +1,7 @@
 import type React from 'react';
 
-import { buildSections, calculateReadingTime, labelify } from '@/lib/articles';
-import type { Article, ArticleMeta, Section } from '@/lib/types';
+import { buildContentTree, calculateReadingTime, labelify } from '@/lib/articles';
+import type { Article, ArticleMeta, ContentNode } from '@/lib/types';
 
 interface ArticleModule {
 	meta: ArticleMeta;
@@ -20,72 +20,63 @@ const modules = Object.fromEntries(
 	)
 );
 
-function parsePathParts(filePath: string): {
-	section: string;
-	subsection?: string;
-	slug: string;
-} {
-	// e.g. "./articles/javascript/closures.tsx"
-	//      "./articles/react/hooks/use-state.tsx"
+// Parse file path into lowercase segments: './articles/Python/Flask/flask-setup.tsx'
+// → ['python', 'flask', 'flask-setup']
+function parseSegments(filePath: string): string[] {
 	const withoutPrefix = filePath.replace('./articles/', '');
-	const parts = withoutPrefix.replace('.tsx', '').split('/');
-
-	if (parts.length === 2) {
-		return { section: parts[0], slug: parts[1] };
-	} else if (parts.length === 3) {
-		return { section: parts[0], subsection: parts[1], slug: parts[2] };
-	}
-	// Deeper nesting: treat last two as subsection/slug
-	return {
-		section: parts[0],
-		subsection: parts.slice(1, -1).join('-'),
-		slug: parts[parts.length - 1],
-	};
+	return withoutPrefix.replace('.tsx', '').split('/').map((s) => s.toLowerCase());
 }
 
-export const articles: Article[] = Object.entries(modules).map(
-	([path, mod]) => {
-		const { section, subsection, slug } = parsePathParts(path);
+export const articles: Article[] = Object.entries(modules).map(([path, mod]) => {
+	const segments = parseSegments(path);
+	const slug = segments[segments.length - 1];
+	const section = segments[0];
 
-		// Estimate reading time from markdown content if exported, else from excerpt
-		const markdownSource =
-			(mod as { content?: string }).content ?? mod.meta.excerpt;
-		const readingTime = calculateReadingTime(markdownSource);
+	const markdownSource = (mod as { content?: string }).content ?? mod.meta.excerpt;
+	const readingTime = calculateReadingTime(markdownSource);
 
-		return {
-			meta: mod.meta,
-			slug,
-			section,
-			subsection,
-			path: `/${section}${subsection ? `/${subsection}` : ''}/${slug}`,
-			readingTime,
-			component: mod.default,
-		};
-	}
-);
+	return {
+		meta: mod.meta,
+		slug,
+		section,
+		segments,
+		path: '/' + segments.join('/'),
+		readingTime,
+		component: mod.default,
+	};
+});
 
-export const sections: Record<string, Section> = buildSections(articles);
+export const contentRoot: ContentNode = buildContentTree(articles);
 
-export const articleBySlug: Record<string, Article> = {};
+// sections = top-level children of the root (backward compat for HomePage)
+export const sections = contentRoot.children;
+
+// Fast O(1) article lookup by URL path
+export const articleByPath: Record<string, Article> = {};
 for (const article of articles) {
-	// Key: "section/slug" or "section/subsection/slug"
-	const key = article.subsection
-		? `${article.section}/${article.subsection}/${article.slug}`
-		: `${article.section}/${article.slug}`;
-	articleBySlug[key] = article;
+	articleByPath[article.path] = article;
+}
+
+// Walk the content tree to find a node at the given path segments
+export function findContentNode(segments: string[]): ContentNode | null {
+	let node: ContentNode = contentRoot;
+	for (const seg of segments) {
+		if (!node.children[seg]) return null;
+		node = node.children[seg];
+	}
+	return node;
 }
 
 export function searchArticles(query: string): Article[] {
 	if (!query.trim()) return articles;
 	const q = query.toLowerCase();
 	return articles.filter(
-		a =>
+		(a) =>
 			a.meta.title.toLowerCase().includes(q) ||
 			a.meta.excerpt.toLowerCase().includes(q) ||
-			a.meta.tags.some(t => t.toLowerCase().includes(q)) ||
+			a.meta.tags.some((t) => t.toLowerCase().includes(q)) ||
 			a.meta.author?.toLowerCase().includes(q) ||
-			a.section.toLowerCase().includes(q) ||
-			a.slug.toLowerCase().includes(q)
+			a.segments.some((s) => s.includes(q))
 	);
 }
 

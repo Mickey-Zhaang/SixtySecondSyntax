@@ -1,4 +1,4 @@
-import type { Article, Section } from './types';
+import type { Article, ContentNode } from './types';
 
 export function calculateReadingTime(markdown: string): number {
   const wordsPerMinute = 200;
@@ -29,53 +29,52 @@ export function sortArticles(articles: Article[]): Article[] {
   });
 }
 
-export function buildSections(articles: Article[]): Record<string, Section> {
-  const sections: Record<string, Section> = {};
-
-  for (const article of articles) {
-    if (!sections[article.section]) {
-      sections[article.section] = {
-        slug: article.section,
-        label: labelify(article.section),
-        articles: [],
-        subsections: {},
-      };
-    }
-
-    const section = sections[article.section];
-    section.articles.push(article);
-
-    if (article.subsection) {
-      if (!section.subsections[article.subsection]) {
-        section.subsections[article.subsection] = [];
-      }
-      section.subsections[article.subsection].push(article);
-    }
-  }
-
-  // Sort articles within each section
-  for (const section of Object.values(sections)) {
-    section.articles = sortArticles(section.articles);
-    for (const key of Object.keys(section.subsections)) {
-      section.subsections[key] = sortArticles(section.subsections[key]);
-    }
-  }
-
-  return sections;
+// Count all articles in a node and its descendants
+export function countArticles(node: ContentNode): number {
+  return node.articles.length +
+    Object.values(node.children).reduce((sum, child) => sum + countArticles(child), 0);
 }
 
-export function searchArticles(articles: Article[], query: string): Article[] {
-  if (!query.trim()) return articles;
-  const q = query.toLowerCase();
-  return articles.filter(
-    (a) =>
-      a.meta.title.toLowerCase().includes(q) ||
-      a.meta.excerpt.toLowerCase().includes(q) ||
-      a.meta.tags.some((t) => t.toLowerCase().includes(q)) ||
-      a.meta.author?.toLowerCase().includes(q) ||
-      a.section.toLowerCase().includes(q) ||
-      a.slug.toLowerCase().includes(q),
-  );
+// Build a recursive content tree from a flat article list
+export function buildContentTree(articles: Article[]): ContentNode {
+  const root: ContentNode = {
+    slug: '',
+    label: '',
+    path: '/',
+    children: {},
+    articles: [],
+  };
+
+  for (const article of articles) {
+    let node = root;
+    const dirSegments = article.segments.slice(0, -1); // all except slug
+
+    for (let i = 0; i < dirSegments.length; i++) {
+      const seg = dirSegments[i];
+      if (!node.children[seg]) {
+        node.children[seg] = {
+          slug: seg,
+          label: labelify(seg),
+          path: '/' + dirSegments.slice(0, i + 1).join('/'),
+          children: {},
+          articles: [],
+        };
+      }
+      node = node.children[seg];
+    }
+
+    node.articles.push(article);
+  }
+
+  sortAllNodes(root);
+  return root;
+}
+
+function sortAllNodes(node: ContentNode) {
+  node.articles = sortArticles(node.articles);
+  for (const child of Object.values(node.children)) {
+    sortAllNodes(child);
+  }
 }
 
 export function formatDate(dateStr: string): string {

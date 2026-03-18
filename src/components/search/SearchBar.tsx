@@ -72,10 +72,7 @@ export function SearchBar({ placeholder = 'Search articles...' }: SearchBarProps
 				{results.map((article) => (
 					<ResultItem key={article.path} onPointerDown={() => handleSelect(article)}>
 						<ResultTitle>{article.meta.title}</ResultTitle>
-						<ResultMeta>
-							{article.section}
-							{article.subsection ? ` / ${article.subsection}` : ''}
-						</ResultMeta>
+						<ResultMeta>{article.segments.slice(0, -1).join(' / ')}</ResultMeta>
 					</ResultItem>
 				))}
 			</Dropdown>

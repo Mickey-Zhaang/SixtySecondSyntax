@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { ArticleCard } from '@/components/article/ArticleCard';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { articles, sections } from '@/content/registry';
-import { labelify, sortArticles } from '@/lib/articles';
+import { countArticles, labelify, sortArticles } from '@/lib/articles';
 
 function SectionCard({
 	sectionKey,
@@ -87,7 +87,7 @@ export function HomePage() {
 								<div key={key} className="section-card">
 									<SectionCard
 										sectionKey={key}
-										articleCount={section.articles.length}
+										articleCount={countArticles(section)}
 									/>
 								</div>
 							))}
