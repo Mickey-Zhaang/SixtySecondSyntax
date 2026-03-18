@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
+import { NodeCarousel } from '@/components/common/NodeCarousel';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { articles, sections } from '@/content/registry';
 import { countArticles, labelify, sortArticles } from '@/lib/articles';
@@ -29,19 +30,10 @@ function SectionCard({
 }
 
 export function HomePage() {
-	const cardsRef = useRef<HTMLDivElement>(null);
 	const recentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {
-			gsap.from('.section-card', {
-				opacity: 0,
-				y: 30,
-				stagger: 0.1,
-				duration: 0.5,
-				ease: 'power2.out',
-				delay: 0.2,
-			});
 			gsap.from('.recent-card', {
 				opacity: 0,
 				y: 20,
@@ -77,24 +69,16 @@ export function HomePage() {
 				</Hero>
 
 				<PageContent>
-					{/* Sections overview */}
-					<SectionHeading>
-						<SectionTitle>Browse by Topic</SectionTitle>
-					</SectionHeading>
-					<div ref={cardsRef}>
-						<Grid>
-							{Object.entries(sections).map(([key, section]) => (
-								<div key={key} className="section-card">
-									<SectionCard
-										sectionKey={key}
-										articleCount={countArticles(section)}
-									/>
-								</div>
-							))}
-						</Grid>
-					</div>
+					<NodeCarousel title="Browse by Topic">
+						{Object.entries(sections).map(([key, section]) => (
+							<SectionCard
+								key={key}
+								sectionKey={key}
+								articleCount={countArticles(section)}
+							/>
+						))}
+					</NodeCarousel>
 
-					{/* Recent articles */}
 					<RecentSection>
 						<SectionHeading>
 							<SectionTitle>Recent Articles</SectionTitle>
@@ -178,16 +162,6 @@ const SectionTitle = styled.h2`
 	color: ${({ theme }) => theme.colors.text};
 `;
 
-const Grid = styled.div`
-	display: grid;
-	gap: ${({ theme }) => theme.spacing[4]};
-	margin-bottom: ${({ theme }) => theme.spacing[12]};
-
-	@media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-		grid-template-columns: repeat(2, 1fr);
-	}
-`;
-
 const RecentSection = styled.section`
 	margin-bottom: ${({ theme }) => theme.spacing[12]};
 `;
@@ -202,7 +176,10 @@ const SectionCardEl = styled(Link)`
 	display: flex;
 	flex-direction: column;
 	gap: ${({ theme }) => theme.spacing[2]};
-	padding: ${({ theme }) => theme.spacing[5]};
+	padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
+	min-width: 180px;
+	max-width: 260px;
+	height: 100%;
 	background: ${({ theme }) => theme.colors.bgCard};
 	border: 1px solid ${({ theme }) => theme.colors.border};
 	border-radius: ${({ theme }) => theme.radii.md};
@@ -213,17 +190,18 @@ const SectionCardEl = styled(Link)`
 		border-color: ${({ theme }) => theme.colors.accent};
 		background: ${({ theme }) => theme.colors.bgHover};
 		box-shadow: ${({ theme }) => theme.shadows.accent};
+		transform: translateY(-2px);
 	}
 `;
 
 const SectionCardTitle = styled.h3`
-	font-size: ${({ theme }) => theme.fontSizes.xl};
+	font-size: ${({ theme }) => theme.fontSizes.md};
 	font-weight: 600;
 	color: ${({ theme }) => theme.colors.text};
 `;
 
 const SectionCardCount = styled.span`
-	font-size: ${({ theme }) => theme.fontSizes.sm};
+	font-size: ${({ theme }) => theme.fontSizes.xs};
 	color: ${({ theme }) => theme.colors.textMuted};
 	font-family: ${({ theme }) => theme.fonts.mono};
 `;

@@ -5,6 +5,7 @@ export { ArticleTemplate } from './article/ArticleTemplate';
 export { CodeBlock } from './article/CodeBlock';
 
 // Common components
+export { NodeCarousel } from './common/NodeCarousel';
 export { ReadingProgress } from './common/ReadingProgress';
 export { Tag } from './common/Tag';
 

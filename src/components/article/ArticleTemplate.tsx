@@ -41,7 +41,23 @@ export function ArticleTemplate({ meta, markdown }: ArticleTemplateProps) {
 				<Prose>
 					<ReactMarkdown
 						remarkPlugins={[remarkGfm]}
-						rehypePlugins={[[rehypeHighlight, { languages: { bash, css, javascript, json, python, sql, typescript, xml } }]]}
+						rehypePlugins={[
+							[
+								rehypeHighlight,
+								{
+									languages: {
+										bash,
+										css,
+										javascript,
+										json,
+										python,
+										sql,
+										typescript,
+										xml,
+									},
+								},
+							],
+						]}
 						components={{
 							pre({ children }) {
 								// Extract className from the code child

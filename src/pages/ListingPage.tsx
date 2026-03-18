@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
+import { NodeCarousel } from '@/components/common/NodeCarousel';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { countArticles } from '@/lib/articles';
@@ -42,7 +43,7 @@ export function ListingPage({ node }: ListingPageProps) {
 					<PageTitle>{node.label}</PageTitle>
 					<div ref={contentRef}>
 						{childNodes.length > 0 && (
-							<NodeGrid>
+							<NodeCarousel title="Browse by Topic">
 								{childNodes.map((child) => (
 									<div key={child.slug} className="listing-item">
 										<NodeCard to={child.path}>
@@ -54,16 +55,21 @@ export function ListingPage({ node }: ListingPageProps) {
 										</NodeCard>
 									</div>
 								))}
-							</NodeGrid>
+							</NodeCarousel>
 						)}
 						{node.articles.length > 0 && (
-							<ArticleList $hasNodeGrid={childNodes.length > 0}>
-								{node.articles.map((article) => (
-									<div key={article.path} className="listing-item">
-										<ArticleCard article={article} />
-									</div>
-								))}
-							</ArticleList>
+							<Section>
+								<SectionHeading>
+									<SectionTitle>Articles</SectionTitle>
+								</SectionHeading>
+								<ArticleList>
+									{node.articles.map((article) => (
+										<div key={article.path} className="listing-item">
+											<ArticleCard article={article} />
+										</div>
+									))}
+								</ArticleList>
+							</Section>
 						)}
 					</div>
 				</PageContent>
@@ -89,14 +95,23 @@ const PageTitle = styled.h1`
 	margin-bottom: ${({ theme }) => theme.spacing[8]};
 `;
 
-const NodeGrid = styled.div`
-	display: grid;
-	gap: ${({ theme }) => theme.spacing[4]};
-	margin-bottom: ${({ theme }) => theme.spacing[8]};
+const Section = styled.section`
+	margin-bottom: ${({ theme }) => theme.spacing[12]};
+`;
 
-	@media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-		grid-template-columns: repeat(2, 1fr);
-	}
+const SectionHeading = styled.div`
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: ${({ theme }) => theme.spacing[5]};
+	border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+	padding-bottom: ${({ theme }) => theme.spacing[3]};
+`;
+
+const SectionTitle = styled.h2`
+	font-size: ${({ theme }) => theme.fontSizes['2xl']};
+	font-weight: 600;
+	color: ${({ theme }) => theme.colors.text};
 `;
 
 const NodeCard = styled(Link)`
@@ -104,6 +119,7 @@ const NodeCard = styled(Link)`
 	flex-direction: column;
 	gap: ${({ theme }) => theme.spacing[2]};
 	padding: ${({ theme }) => theme.spacing[5]};
+	height: 100%;
 	background: ${({ theme }) => theme.colors.bgCard};
 	border: 1px solid ${({ theme }) => theme.colors.border};
 	border-radius: ${({ theme }) => theme.radii.md};
@@ -130,11 +146,8 @@ const NodeCardMeta = styled.span`
 	font-family: ${({ theme }) => theme.fonts.mono};
 `;
 
-const ArticleList = styled.div<{ $hasNodeGrid: boolean }>`
+const ArticleList = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${({ theme }) => theme.spacing[4]};
-	padding-top: ${({ $hasNodeGrid, theme }) => ($hasNodeGrid ? theme.spacing[4] : '0')};
-	border-top: ${({ $hasNodeGrid, theme }) =>
-		$hasNodeGrid ? `1px solid ${theme.colors.border}` : 'none'};
 `;
