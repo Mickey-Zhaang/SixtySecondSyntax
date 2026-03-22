@@ -46,8 +46,8 @@ export function HomePage() {
 						Code concepts in <span>60 seconds</span>
 					</HeroTitle>
 					<HeroSub>
-						Bite-sized articles on JavaScript, TypeScript, React and more. Clear
-						explanations, real examples.
+						Join in on the adventure of learning with programming concepts in 60
+						seconds or less...
 					</HeroSub>
 				</Hero>
 
@@ -101,7 +101,7 @@ const HeroTitle = styled.h1`
 	font-weight: 700;
 	color: ${({ theme }) => theme.colors.text};
 	line-height: 1.2;
-	margin-bottom: ${({ theme }) => theme.spacing[4]};
+	margin-bottom: ${({ theme }) => theme.spacing[6]};
 
 	span {
 		color: ${({ theme }) => theme.colors.accent};
@@ -113,7 +113,7 @@ const HeroTitle = styled.h1`
 `;
 
 const HeroSub = styled.p`
-	font-size: ${({ theme }) => theme.fontSizes.xl};
+	font-size: ${({ theme }) => theme.fontSizes.lg};
 	color: ${({ theme }) => theme.colors.textMuted};
 	line-height: 1.6;
 	max-width: 560px;

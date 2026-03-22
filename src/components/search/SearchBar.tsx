@@ -94,7 +94,7 @@ const Wrapper = styled.div`
 
 const Input = styled.input`
 	width: 100%;
-	padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[4]};
+	padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
 	padding-left: ${({ theme }) => theme.spacing[10]};
 	background: ${({ theme }) => theme.colors.bgCard};
 	border: 1px solid ${({ theme }) => theme.colors.border};
