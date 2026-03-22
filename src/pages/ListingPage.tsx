@@ -1,9 +1,10 @@
+import { gsap } from 'gsap';
+import styled from 'styled-components';
+
 import { useEffect, useRef } from 'react';
 
-import { gsap } from 'gsap';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
 import { NodeCarousel } from '@/components/common/NodeCarousel';
@@ -44,7 +45,7 @@ export function ListingPage({ node }: ListingPageProps) {
 					<div ref={contentRef}>
 						{childNodes.length > 0 && (
 							<NodeCarousel title="Browse by Topic">
-								{childNodes.map((child) => (
+								{childNodes.map(child => (
 									<div key={child.slug} className="listing-item">
 										<NodeCard to={child.path}>
 											<NodeCardTitle>{child.label}</NodeCardTitle>
@@ -63,7 +64,7 @@ export function ListingPage({ node }: ListingPageProps) {
 									<SectionTitle>Articles</SectionTitle>
 								</SectionHeading>
 								<ArticleList>
-									{node.articles.map((article) => (
+									{node.articles.map(article => (
 										<div key={article.path} className="listing-item">
 											<ArticleCard article={article} />
 										</div>
@@ -84,7 +85,8 @@ const PageContent = styled.div`
 	padding: ${({ theme }) => theme.spacing[8]} ${({ theme }) => theme.spacing[8]};
 
 	@media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-		padding: ${({ theme }) => theme.spacing[6]} ${({ theme }) => theme.spacing[4]};
+		padding: ${({ theme }) => theme.spacing[6]}
+			${({ theme }) => theme.spacing[4]};
 	}
 `;
 

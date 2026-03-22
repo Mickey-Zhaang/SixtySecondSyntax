@@ -15,9 +15,11 @@ export function PageLayout({ children, hideSidebar = false }: PageLayoutProps) {
 			<Header />
 			<Body>
 				{!hideSidebar && <Sidebar />}
-				<Main>{children}</Main>
+				<Main>
+					{children}
+					<Footer />
+				</Main>
 			</Body>
-			<Footer />
 		</Wrapper>
 	);
 }

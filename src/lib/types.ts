@@ -11,10 +11,10 @@ export interface ArticleMeta {
 
 export interface Article {
 	meta: ArticleMeta;
-	slug: string;        // last segment, e.g. 'flask-setup'
-	section: string;     // first segment, e.g. 'python'
-	segments: string[];  // full path: ['python', 'flask', 'flask-setup']
-	path: string;        // URL: /python/flask/flask-setup
+	slug: string; // last segment, e.g. 'flask-setup'
+	section: string; // first segment, e.g. 'python'
+	segments: string[]; // full path: ['python', 'flask', 'flask-setup']
+	path: string; // URL: /python/flask/flask-setup
 	readingTime: number;
 	component: () => React.ReactElement;
 }
@@ -25,5 +25,5 @@ export interface ContentNode {
 	label: string;
 	path: string;
 	children: Record<string, ContentNode>; // sub-folders
-	articles: Article[];                    // articles directly in this folder
+	articles: Article[]; // articles directly in this folder
 }

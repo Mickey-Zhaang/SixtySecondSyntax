@@ -1,6 +1,10 @@
 import type React from 'react';
 
-import { buildContentTree, calculateReadingTime, labelify } from '@/lib/articles';
+import {
+	buildContentTree,
+	calculateReadingTime,
+	labelify,
+} from '@/lib/articles';
 import type { Article, ArticleMeta, ContentNode } from '@/lib/types';
 
 interface ArticleModule {
@@ -24,27 +28,33 @@ const modules = Object.fromEntries(
 // → ['python', 'flask', 'flask-setup']
 function parseSegments(filePath: string): string[] {
 	const withoutPrefix = filePath.replace('./articles/', '');
-	return withoutPrefix.replace('.tsx', '').split('/').map((s) => s.toLowerCase());
+	return withoutPrefix
+		.replace('.tsx', '')
+		.split('/')
+		.map(s => s.toLowerCase());
 }
 
-export const articles: Article[] = Object.entries(modules).map(([path, mod]) => {
-	const segments = parseSegments(path);
-	const slug = segments[segments.length - 1];
-	const section = segments[0];
+export const articles: Article[] = Object.entries(modules).map(
+	([path, mod]) => {
+		const segments = parseSegments(path);
+		const slug = segments[segments.length - 1];
+		const section = segments[0];
 
-	const markdownSource = (mod as { content?: string }).content ?? mod.meta.excerpt;
-	const readingTime = calculateReadingTime(markdownSource);
+		const markdownSource =
+			(mod as { content?: string }).content ?? mod.meta.excerpt;
+		const readingTime = calculateReadingTime(markdownSource);
 
-	return {
-		meta: mod.meta,
-		slug,
-		section,
-		segments,
-		path: '/' + segments.join('/'),
-		readingTime,
-		component: mod.default,
-	};
-});
+		return {
+			meta: mod.meta,
+			slug,
+			section,
+			segments,
+			path: '/' + segments.join('/'),
+			readingTime,
+			component: mod.default,
+		};
+	}
+);
 
 export const contentRoot: ContentNode = buildContentTree(articles);
 
@@ -71,12 +81,12 @@ export function searchArticles(query: string): Article[] {
 	if (!query.trim()) return articles;
 	const q = query.toLowerCase();
 	return articles.filter(
-		(a) =>
+		a =>
 			a.meta.title.toLowerCase().includes(q) ||
 			a.meta.excerpt.toLowerCase().includes(q) ||
-			a.meta.tags.some((t) => t.toLowerCase().includes(q)) ||
+			a.meta.tags.some(t => t.toLowerCase().includes(q)) ||
 			a.meta.author?.toLowerCase().includes(q) ||
-			a.segments.some((s) => s.includes(q))
+			a.segments.some(s => s.includes(q))
 	);
 }
 

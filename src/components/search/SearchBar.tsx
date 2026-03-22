@@ -11,7 +11,9 @@ interface SearchBarProps {
 	placeholder?: string;
 }
 
-export function SearchBar({ placeholder = 'Search articles...' }: SearchBarProps) {
+export function SearchBar({
+	placeholder = 'Search articles...',
+}: SearchBarProps) {
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState<Article[]>([]);
 	const [open, setOpen] = useState(false);
@@ -46,7 +48,10 @@ export function SearchBar({ placeholder = 'Search articles...' }: SearchBarProps
 	// Close dropdown when clicking outside
 	useEffect(() => {
 		const handlePointerDown = (e: PointerEvent) => {
-			if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+			if (
+				wrapperRef.current &&
+				!wrapperRef.current.contains(e.target as Node)
+			) {
 				setOpen(false);
 			}
 		};
@@ -69,8 +74,10 @@ export function SearchBar({ placeholder = 'Search articles...' }: SearchBarProps
 				role="combobox"
 			/>
 			<Dropdown $open={open && results.length > 0}>
-				{results.map((article) => (
-					<ResultItem key={article.path} onPointerDown={() => handleSelect(article)}>
+				{results.map(article => (
+					<ResultItem
+						key={article.path}
+						onPointerDown={() => handleSelect(article)}>
 						<ResultTitle>{article.meta.title}</ResultTitle>
 						<ResultMeta>{article.segments.slice(0, -1).join(' / ')}</ResultMeta>
 					</ResultItem>

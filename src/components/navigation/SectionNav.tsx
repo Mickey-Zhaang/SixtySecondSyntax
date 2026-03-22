@@ -1,8 +1,9 @@
+import { gsap } from 'gsap';
+import styled from 'styled-components';
+
 import { useRef, useState } from 'react';
 
-import { gsap } from 'gsap';
 import { NavLink } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { contentRoot } from '@/content/registry';
 import type { ContentNode } from '@/lib/types';
@@ -24,7 +25,12 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 		if (!el) return;
 
 		if (open) {
-			gsap.to(el, { height: 0, opacity: 0, duration: 0.2, ease: 'power2.inOut' });
+			gsap.to(el, {
+				height: 0,
+				opacity: 0,
+				duration: 0.2,
+				ease: 'power2.inOut',
+			});
 		} else {
 			gsap.fromTo(
 				el,
@@ -42,7 +48,9 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 			<NodeHeader style={{ paddingLeft: indent }}>
 				<NodeLabel to={node.path}>{node.label}</NodeLabel>
 				{hasChildren && (
-					<CollapseBtn onClick={toggle} aria-label={open ? 'Collapse' : 'Expand'}>
+					<CollapseBtn
+						onClick={toggle}
+						aria-label={open ? 'Collapse' : 'Expand'}>
 						<Chevron $open={open}>▶</Chevron>
 					</CollapseBtn>
 				)}
@@ -50,10 +58,10 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 
 			{hasChildren && (
 				<NodeChildren ref={childrenRef} $open={open}>
-					{Object.values(node.children).map((child) => (
+					{Object.values(node.children).map(child => (
 						<TreeNode key={child.slug} node={child} depth={depth + 1} />
 					))}
-					{node.articles.map((article) => (
+					{node.articles.map(article => (
 						<ArticleLink
 							key={article.path}
 							to={article.path}
@@ -70,7 +78,7 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 export function SectionNav() {
 	return (
 		<NavWrapper>
-			{Object.values(contentRoot.children).map((node) => (
+			{Object.values(contentRoot.children).map(node => (
 				<TreeNode key={node.slug} node={node} depth={0} />
 			))}
 		</NavWrapper>
