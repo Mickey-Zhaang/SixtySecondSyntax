@@ -37,6 +37,9 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 				{ height: 'auto', opacity: 1, duration: 0.2, ease: 'power2.inOut' }
 			);
 			setOpen(true);
+		} else if (!isActive && open) {
+			gsap.to(el, { height: 0, opacity: 0, duration: 0.2, ease: 'power2.inOut' });
+			setOpen(false);
 		}
 	}, [pathname]);
 
@@ -68,8 +71,8 @@ function TreeNode({ node, depth }: TreeNodeProps) {
 
 	return (
 		<NodeItem>
-			<NodeHeader style={{ paddingLeft: indent }}>
-				<NodeLabel to={node.path}>{node.label}</NodeLabel>
+			<NodeHeader>
+				<NodeLabel to={node.path} style={{ paddingLeft: indent }}>{node.label}</NodeLabel>
 				{hasChildren && (
 					<CollapseBtn
 						onClick={toggle}
@@ -121,6 +124,12 @@ const NodeHeader = styled.div`
 	align-items: center;
 	justify-content: space-between;
 	padding-right: ${({ theme }) => theme.spacing[2]};
+	border-radius: ${({ theme }) => theme.radii.sm};
+	transition: background ${({ theme }) => theme.transitions.fast};
+
+	&:hover {
+		background: ${({ theme }) => theme.colors.bgHover};
+	}
 `;
 
 const NodeLabel = styled(NavLink)`
@@ -137,7 +146,6 @@ const NodeLabel = styled(NavLink)`
 
 	&:hover {
 		color: ${({ theme }) => theme.colors.text};
-		background: ${({ theme }) => theme.colors.bgHover};
 	}
 
 	&.active {
@@ -159,9 +167,6 @@ const CollapseBtn = styled.button`
 	border-radius: ${({ theme }) => theme.radii.sm};
 	transition: background ${({ theme }) => theme.transitions.fast};
 
-	&:hover {
-		background: ${({ theme }) => theme.colors.bgHover};
-	}
 `;
 
 const Chevron = styled.span<{ $open: boolean }>`
