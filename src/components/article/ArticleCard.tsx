@@ -31,7 +31,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
 
 const Card = styled(Link)`
 	display: block;
-	padding: ${({ theme }) => theme.spacing[5]};
+	padding: ${({ theme }) => theme.spacing[6]};
 	background: ${({ theme }) => theme.colors.bgCard};
 	border: 1px solid ${({ theme }) => theme.colors.border};
 	border-radius: ${({ theme }) => theme.radii.md};
@@ -51,12 +51,12 @@ const CardTitle = styled.h3`
 	font-size: ${({ theme }) => theme.fontSizes.xl};
 	font-weight: 600;
 	color: ${({ theme }) => theme.colors.text};
-	margin-bottom: ${({ theme }) => theme.spacing[2]};
+	margin-bottom: ${({ theme }) => theme.spacing[4]};
 	line-height: 1.3;
 `;
 
 const CardExcerpt = styled.p`
-	font-size: ${({ theme }) => theme.fontSizes.md};
+	font-size: ${({ theme }) => theme.fontSizes.sm};
 	color: ${({ theme }) => theme.colors.textMuted};
 	line-height: 1.6;
 	margin-bottom: ${({ theme }) => theme.spacing[4]};
@@ -67,6 +67,7 @@ const CardFooter = styled.div`
 	flex-wrap: wrap;
 	align-items: center;
 	gap: ${({ theme }) => theme.spacing[3]};
+	margin-bottom: -${({ theme }) => theme.spacing[1]};
 `;
 
 const CardDate = styled.span`
