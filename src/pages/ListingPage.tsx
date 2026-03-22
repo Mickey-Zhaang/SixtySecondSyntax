@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
 
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
 import { NodeCarousel } from '@/components/common/NodeCarousel';
+import { SectionCard } from '@/components/common/SectionCard';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Breadcrumbs } from '@/components/navigation/Breadcrumbs';
 import { countArticles } from '@/lib/articles';
@@ -47,13 +47,11 @@ export function ListingPage({ node }: ListingPageProps) {
 							<NodeCarousel title="Browse by Topic">
 								{childNodes.map(child => (
 									<div key={child.slug} className="listing-item">
-										<NodeCard to={child.path}>
-											<NodeCardTitle>{child.label}</NodeCardTitle>
-											<NodeCardMeta>
-												{countArticles(child)}{' '}
-												{countArticles(child) === 1 ? 'article' : 'articles'}
-											</NodeCardMeta>
-										</NodeCard>
+										<SectionCard
+											to={child.path}
+											label={child.label}
+											articleCount={countArticles(child)}
+										/>
 									</div>
 								))}
 							</NodeCarousel>
@@ -114,38 +112,6 @@ const SectionTitle = styled.h2`
 	font-size: ${({ theme }) => theme.fontSizes['2xl']};
 	font-weight: 600;
 	color: ${({ theme }) => theme.colors.text};
-`;
-
-const NodeCard = styled(Link)`
-	display: flex;
-	flex-direction: column;
-	gap: ${({ theme }) => theme.spacing[2]};
-	padding: ${({ theme }) => theme.spacing[5]};
-	height: 100%;
-	background: ${({ theme }) => theme.colors.bgCard};
-	border: 1px solid ${({ theme }) => theme.colors.border};
-	border-radius: ${({ theme }) => theme.radii.md};
-	text-decoration: none;
-	transition: all ${({ theme }) => theme.transitions.base};
-
-	&:hover {
-		border-color: ${({ theme }) => theme.colors.accent};
-		background: ${({ theme }) => theme.colors.bgHover};
-		box-shadow: ${({ theme }) => theme.shadows.accent};
-		transform: translateY(-2px);
-	}
-`;
-
-const NodeCardTitle = styled.h3`
-	font-size: ${({ theme }) => theme.fontSizes.xl};
-	font-weight: 600;
-	color: ${({ theme }) => theme.colors.text};
-`;
-
-const NodeCardMeta = styled.span`
-	font-size: ${({ theme }) => theme.fontSizes.sm};
-	color: ${({ theme }) => theme.colors.textMuted};
-	font-family: ${({ theme }) => theme.fonts.mono};
 `;
 
 const ArticleList = styled.div`

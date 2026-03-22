@@ -7,6 +7,7 @@ export { CodeBlock } from './article/CodeBlock';
 // Common components
 export { NodeCarousel } from './common/NodeCarousel';
 export { ReadingProgress } from './common/ReadingProgress';
+export { SectionCard } from './common/SectionCard';
 export { Tag } from './common/Tag';
 
 // Layout components

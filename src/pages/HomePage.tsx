@@ -4,30 +4,13 @@ import styled from 'styled-components';
 import { useEffect, useRef } from 'react';
 
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 
 import { ArticleCard } from '@/components/article/ArticleCard';
 import { NodeCarousel } from '@/components/common/NodeCarousel';
+import { SectionCard } from '@/components/common/SectionCard';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { articles, sections } from '@/content/registry';
 import { countArticles, labelify, sortArticles } from '@/lib/articles';
-
-function SectionCard({
-	sectionKey,
-	articleCount,
-}: {
-	sectionKey: string;
-	articleCount: number;
-}) {
-	return (
-		<SectionCardEl to={`/${sectionKey}`}>
-			<SectionCardTitle>{labelify(sectionKey)}</SectionCardTitle>
-			<SectionCardCount>
-				{articleCount} {articleCount === 1 ? 'article' : 'articles'}
-			</SectionCardCount>
-		</SectionCardEl>
-	);
-}
 
 export function HomePage() {
 	const recentRef = useRef<HTMLDivElement>(null);
@@ -73,7 +56,8 @@ export function HomePage() {
 						{Object.entries(sections).map(([key, section]) => (
 							<SectionCard
 								key={key}
-								sectionKey={key}
+								to={`/${key}`}
+								label={labelify(key)}
 								articleCount={countArticles(section)}
 							/>
 						))}
@@ -170,38 +154,4 @@ const ArticleList = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: ${({ theme }) => theme.spacing[4]};
-`;
-
-const SectionCardEl = styled(Link)`
-	display: flex;
-	flex-direction: column;
-	gap: ${({ theme }) => theme.spacing[2]};
-	padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
-	min-width: 180px;
-	max-width: 260px;
-	height: 100%;
-	background: ${({ theme }) => theme.colors.bgCard};
-	border: 1px solid ${({ theme }) => theme.colors.border};
-	border-radius: ${({ theme }) => theme.radii.md};
-	text-decoration: none;
-	transition: all ${({ theme }) => theme.transitions.base};
-
-	&:hover {
-		border-color: ${({ theme }) => theme.colors.accent};
-		background: ${({ theme }) => theme.colors.bgHover};
-		box-shadow: ${({ theme }) => theme.shadows.accent};
-		transform: translateY(-2px);
-	}
-`;
-
-const SectionCardTitle = styled.h3`
-	font-size: ${({ theme }) => theme.fontSizes.md};
-	font-weight: 600;
-	color: ${({ theme }) => theme.colors.text};
-`;
-
-const SectionCardCount = styled.span`
-	font-size: ${({ theme }) => theme.fontSizes.xs};
-	color: ${({ theme }) => theme.colors.textMuted};
-	font-family: ${({ theme }) => theme.fonts.mono};
 `;

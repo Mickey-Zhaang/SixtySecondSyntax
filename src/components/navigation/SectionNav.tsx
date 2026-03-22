@@ -1,9 +1,9 @@
 import { gsap } from 'gsap';
 import styled from 'styled-components';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { contentRoot } from '@/content/registry';
 import type { ContentNode } from '@/lib/types';
@@ -14,8 +14,31 @@ interface TreeNodeProps {
 }
 
 function TreeNode({ node, depth }: TreeNodeProps) {
-	const [open, setOpen] = useState(true);
+	const { pathname } = useLocation();
+	const isActive = pathname.startsWith(node.path);
+	const [open, setOpen] = useState(isActive);
 	const childrenRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const el = childrenRef.current;
+		if (!el) return;
+		if (isActive) {
+			gsap.set(el, { height: 'auto', opacity: 1 });
+		}
+	}, []);
+
+	useEffect(() => {
+		const el = childrenRef.current;
+		if (!el) return;
+		if (isActive && !open) {
+			gsap.fromTo(
+				el,
+				{ height: 0, opacity: 0 },
+				{ height: 'auto', opacity: 1, duration: 0.2, ease: 'power2.inOut' }
+			);
+			setOpen(true);
+		}
+	}, [pathname]);
 
 	const hasChildren =
 		Object.keys(node.children).length > 0 || node.articles.length > 0;
@@ -150,6 +173,8 @@ const Chevron = styled.span<{ $open: boolean }>`
 
 const NodeChildren = styled.div<{ $open: boolean }>`
 	overflow: hidden;
+	height: 0;
+	opacity: 0;
 	pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
 `;
 
