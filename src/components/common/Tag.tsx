@@ -15,7 +15,8 @@ export function Tag({ label, onClick, active = false }: TagProps) {
 }
 
 const StyledTag = styled.span<{ $active: boolean; $clickable: boolean }>`
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
 	padding: 2px 10px;
 	border-radius: ${({ theme }) => theme.radii.full};
 	font-size: ${({ theme }) => theme.fontSizes.xs};
