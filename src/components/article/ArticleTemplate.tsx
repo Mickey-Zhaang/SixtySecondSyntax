@@ -124,7 +124,7 @@ const Title = styled.h1`
 const Prose = styled.div`
 	color: ${({ theme }) => theme.colors.text};
 	line-height: 1.8;
-	font-size: ${({ theme }) => theme.fontSizes.lg};
+	font-size: ${({ theme }) => theme.fontSizes.sm};
 
 	h2 {
 		font-size: ${({ theme }) => theme.fontSizes['2xl']};

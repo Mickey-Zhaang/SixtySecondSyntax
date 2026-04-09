@@ -13,11 +13,10 @@ export const content = `
 
 Dumplings Recipe
 
-
 ## Ingredients
 
 > ## Wrappings:
-> - 2 ½ cups of flour
+> - 2 1/2 cups of flour
 > - 1 cup water
 >
 > ## Filling:
