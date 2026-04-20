@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Link, useLocation } from 'react-router-dom';
 
-import { labelify } from '@/content/registry';
+import { articleByPath, labelify } from '@/content/registry';
 
 export function Breadcrumbs() {
 	const { pathname } = useLocation();
@@ -22,7 +22,7 @@ export function Breadcrumbs() {
 						style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
 						<Sep>/</Sep>
 						{isLast ? (
-							<Current>{labelify(part)}</Current>
+							<Current>{articleByPath[path]?.meta.title ?? labelify(part)}</Current>
 						) : (
 							<Crumb to={path}>{labelify(part)}</Crumb>
 						)}

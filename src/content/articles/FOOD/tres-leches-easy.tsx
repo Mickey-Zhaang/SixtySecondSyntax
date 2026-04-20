@@ -3,7 +3,7 @@ import type { ArticleMeta } from '@/lib/types';
 
 // 1. Meta — controls how the article appears in listings
 export const meta: ArticleMeta = {
-	title: 'Tres Leches Cake',
+	title: 'Tres Leches (Easy)',
 	tags: ['Cake'],
 	date: '2026-04-08',
 	excerpt: "Made Tres Leches for Penny's Birthday!",

@@ -2,7 +2,7 @@ import { ArticleTemplate } from '@/components';
 import type { ArticleMeta } from '@/lib/types';
 
 export const meta: ArticleMeta = {
-	title: 'Lebanese Vermicelli Rice',
+	title: 'Vermicelli Rice',
 	tags: ['food', 'lebanese'],
 	date: '2026-04-14', // YYYY-MM-DD
 	excerpt: 'Need to test + update',

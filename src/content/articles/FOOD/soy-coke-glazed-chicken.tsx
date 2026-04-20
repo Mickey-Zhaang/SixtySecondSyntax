@@ -2,7 +2,7 @@ import { ArticleTemplate } from '@/components';
 import type { ArticleMeta } from '@/lib/types';
 
 export const meta: ArticleMeta = {
-	title: 'Soy Glazed Chicken Rice Bowl',
+	title: 'Soy Coke Glazed Chicken',
 	tags: ['food', 'asian', 'easy meals'],
 	date: '2026-04-14', // YYYY-MM-DD
 	excerpt: 'Need to test + update',
