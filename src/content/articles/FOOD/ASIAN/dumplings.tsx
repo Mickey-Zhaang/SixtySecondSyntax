@@ -31,6 +31,9 @@ Dumplings Recipe
 > - 1 tsp ground white pepper (optional)
 > - neutral oil (for frying)
 
+## Instructions
+
+1) I'm not explaining this lol
 `;
 
 // 3. Default export — the rendered component
