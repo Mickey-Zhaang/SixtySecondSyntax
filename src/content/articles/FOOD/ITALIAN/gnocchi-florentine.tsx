@@ -3,9 +3,9 @@ import type { ArticleMeta } from '@/lib/types';
 
 // 1. Meta — controls how the article appears in listings
 export const meta: ArticleMeta = {
-	title: 'Gnocci Florentine',
-	tags: ['tag1', 'tag2'],
-	date: '2026-03-17', // YYYY-MM-DD
+	title: 'Gnocchi Florentine',
+	tags: ['italian', 'pasta'],
+	date: '2026-04-08', // YYYY-MM-DD
 	excerpt: 'Want to make, need to update',
 	order: 1, // optional — controls sort order within a section: 1 > 9
 };
